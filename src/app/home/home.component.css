@@ -1,0 +1,207 @@
+header {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+header nav {
+    margin-right: 30px;
+    margin-top: 3px;
+}
+
+header nav ul li {
+    display: inline;
+}
+
+header nav ul li::after {
+    content: "|";
+    font-size: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: black;
+}
+
+header nav ul li:last-child::after {
+    content: "";
+}
+
+header nav ul li a {
+    font-size: 16px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.header-left {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.header-left img {
+    width: 70px;
+    height: 40px;
+}
+
+.header-title {
+    margin-top: 13px;
+    margin-left: 10px;
+}
+
+.header-title h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.header-title p {
+    margin-top: 0;
+    font-size: 16px;
+}
+
+.header-divider {
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 0.5px;
+    background-color: black;
+}
+
+
+
+
+
+
+
+
+
+
+.search-bar {
+    margin-top: 5%;
+    margin-left: 25%;
+}
+
+.search-bar h1 {
+    font-size: 40px;
+    margin-bottom: 40px;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar mat-form-field {
+    width: 800px;
+}
+
+#matTooltip {
+    margin-bottom: 22px;
+    margin-left: 20px;
+    cursor: pointer;
+    font-size: 24px;
+    
+}
+
+::ng-deep .custom-tooltip {
+    white-space: pre-line; /* Permite quebras de linha */
+}
+  
+  
+.search-bar-buttons {
+    margin-left: 21%;
+}
+
+.search-bar-buttons button {
+    height: 42px;
+    width: 175px;
+    margin-left: 10px;
+    color: #334B6A;
+    font-size: 18px;
+    border-radius: 7px;
+    border-color: #334B6A;
+    background-color: white;
+    cursor: pointer;
+}
+
+.search-bar-buttons button:hover {
+    color: white;
+    background-color: #334B6A;
+}
+
+#btn-consultar {
+    color: white;
+    background-color: #334B6A;
+}
+
+#btn-consultar:hover {
+    color: #334B6A;
+    background-color: white;
+}
+
+
+
+
+
+
+
+
+.processo-container {
+    display: flex;
+    margin-left: 377px;
+}
+
+.processo {
+    margin-top: 80px;
+}
+
+.processo p {
+    font-size: 15px;
+}
+
+.processo p, .processo-ter-linha, .processo-qua-linha {
+    margin: 3px 0;
+}
+
+#nome-pessoa-processo {
+    font-size: 25px;
+}
+
+.processo-ter-linha {
+    display: flex;
+}
+
+.processo-ter-linha p {
+    margin-right: 20px;
+    font-size: 15px;
+}
+
+.processo-qua-linha {
+    display: flex;
+}
+
+.processo-qua-linha p {
+    margin-right: 30px;
+    font-size: 15px;
+}
+
+.processo-container button {
+    margin-top: 120px;
+    margin-left: 50px;
+    height: 37px;
+    width: 140px;
+    color: white;
+    font-size: 15px;
+    border-radius: 7px;
+    border-color: transparent;
+    background-color: #78A0DC;
+    cursor: pointer;
+}
+
+.processo-container button:hover {
+    color: black;
+    background-color: white;
+}
+  
