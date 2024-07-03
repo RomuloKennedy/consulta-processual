@@ -1,15 +1,13 @@
-import { Processo } from "./processo";
+import { Documento } from "./documento";
+import { Resultado } from "./resultado";
 import { SistemaProcessual } from "./sistema-processual";
 
-export interface ApiResponse {
+export interface ResultadoConsultaDocumento {
   orgao: string;
   sistemaProcessual: SistemaProcessual;
   resultado: Resultado;
-  processos: Processo[];
+  processos: Documento[];
   totalProcessos: number;
 }
 
-interface Resultado {
-  codigo: number;
-  mensagem: string;
-}
+
