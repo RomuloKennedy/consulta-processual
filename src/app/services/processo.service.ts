@@ -1,14 +1,15 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environment';
+import { environment } from '../../../enviroment';
 import { ApiResponse } from '../interfaces/api-response';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class ProcessoService {
-  private baseUrl: string = environment.apiUrl;
+  private baseUrl: string = '/api/cp/api/v1';
   private token: string = environment.token;
 
   constructor(private http: HttpClient) { }
@@ -24,7 +25,7 @@ export class ProcessoService {
       .set('orgao', orgao)
       .set('sistemaProcessual', sistemaProcessual)
       .set('start', '0')
-      .set('length', '500')
+      .set('length', '100')
       .set('buscaNomeExato', 'true');
 
     const optionalParams = [
@@ -38,9 +39,9 @@ export class ProcessoService {
     );
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`
+      'Authorization': `Bearer ${this.token}`,    
     });
 
-    return this.http.get<ApiResponse[]>(`${this.baseUrl}/processos`, { headers, params });
+    return this.http.get<ApiResponse[]>(`${this.baseUrl}/processos`, { headers, params});
   }
 }

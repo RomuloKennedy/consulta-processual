@@ -28,7 +28,7 @@
         <div class="search-container">
             <mat-form-field appearance="outline">
                 <mat-label>Digite nome, cpf, cnpj ou numero do processo</mat-label>
-                <input matInput [matAutocomplete]="auto" [(ngModel)]="searchValue" (input)="onSearch()" (keydown.enter)="onSearch(); updateSuggestion()">
+                <input matInput [matAutocomplete]="auto" [(ngModel)]="searchValue" (keydown.enter)=" updateSuggestion()">
                 <mat-icon matSuffix>search</mat-icon>
                 <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let option of filteredOptions" [value]="option">
@@ -41,7 +41,7 @@
   
         <div class="search-bar-buttons">
             <button>Limpar</button>
-            <button id="btn-consultar" (click)="onSearch(); updateSuggestion()">Consultar</button>
+            <button id="btn-consultar" (click)="onSearch()">Consultar</button>
             <button routerLink="/pesquisa-avancada">Pesquisa Avançada</button>
         </div>
     </div>

@@ -1,19 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
-
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
-
-
+import { ProcessoService } from '../services/processo.service';
+import { ApiResponse } from '../interfaces/api-response';
+import { Subscription } from 'rxjs';
 
 interface Processo {
   numeroDoProcesso: string;
@@ -26,52 +23,43 @@ interface Processo {
   ultimaMovimentacao: string;
 }
 
-
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterModule, 
-    MatAutocompleteModule, MatInputModule, MatFormFieldModule, MatIconModule, MatCardModule, MatTooltipModule],
+  imports: [
+    FormsModule, 
+    CommonModule, 
+    RouterModule,
+    MatAutocompleteModule, 
+    MatInputModule, 
+    MatFormFieldModule, 
+    MatIconModule, 
+    MatCardModule, 
+    MatTooltipModule,
+  ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  headerTitle1 = 'Busca processual Unificada'
-  headerTitle2 = 'Tribunal regional federal da quinta região'
+export class HomeComponent implements OnInit, OnDestroy {
 
+  processos: ApiResponse[] = [];
+  private subscription: Subscription | null = null;
+
+  headerTitle1 = 'Busca processual Unificada';
+  headerTitle2 = 'Tribunal regional federal da quinta região';
   title = 'Busque por nome, número do processo, CPF ou CNPJ';
-
   searchPlaceholder = 'Digite um nome, cpf, cnpj ou número do processo';
-
   tooltipMessage = `
-  Digite o Número do Processo, CNPJ ou CPF com ou sem os caracteres especiais ( ., -).
-  Para pesquisar por nome, utilize o nome completo.
-
-  Exemplos:
+    Digite o Número do Processo, CNPJ ou CPF com ou sem os caracteres especiais ( ., -).
+    Para pesquisar por nome, utilize o nome completo.
+    Exemplos:
       - Número do Processo: 1234567-89.2023.8.26.0000 ou 12345678920238260000
-  
       - CPF: 123.456.789-00 ou 12345678900
-  
       - Nome: João Maria da Silva\n
-
-`;
-
-
+  `;
   searchValue = '';
   filteredOptions: string[] = [];
-
-
   MAX_HISTORY_SIZE = 5; // Defina o tamanho máximo do histórico
-
-
-  constructor() {
-    // Carregar histórico do localStorage ao iniciar
-    // const storedHistory = localStorage.getItem('searchHistory');
-    // if (storedHistory) {
-    //   this.filteredOptions = JSON.parse(storedHistory);
-    // }
-  }
-
 
   // Lista original de processos
   processosOriginais: Processo[] = [
@@ -137,42 +125,21 @@ export class HomeComponent {
     }
   ];
 
-
   // ele cria um array que contem todos elementos do array original
   listaDeProcessos: Processo[] = [];
+
+  constructor(private processoService: ProcessoService) { }
 
   normalizeString(str: string): string {
     return str.replace(/[.-]/g, '');
   }
   
-  onSearch() {
-    const searchTerm = this.normalizeString(this.searchValue.toLowerCase().trim());
-
-
-    if (!searchTerm) {
-      this.listaDeProcessos = [];
-      return;
-    }
-
-    // Filtrar a lista de processos com base no termo de pesquisa
-    this.listaDeProcessos = this.processosOriginais.filter(processo => {
-      return (
-        processo.nome.toLowerCase().includes(searchTerm) ||
-        processo.cpf.replaceAll('.', '').replaceAll('-', '').includes(searchTerm) ||
-        processo.numeroDoProcesso.replaceAll('.', '').replaceAll('-', '').includes(searchTerm)
-        // Adicione mais campos se desejar, como CNPJ, por exemplo
-      );
-    });
-
-  }
 
   updateSuggestion(){
     this.updateSearchHistory(this.searchValue);
   }
 
-
   private updateSearchHistory(searchTerm: string) {
-
     if(searchTerm != '' && !(this.filteredOptions.includes(searchTerm)) ){
       this.filteredOptions = [searchTerm, ...this.filteredOptions];
     }
@@ -185,7 +152,7 @@ export class HomeComponent {
     localStorage.setItem('searchHistory', JSON.stringify(this.filteredOptions));
   }
 
-  onSearchApi(){
+  onSearchApi() {
     const searchTerm = this.normalizeString(this.searchValue.toLowerCase().trim());
     
     if (!searchTerm) {
@@ -195,26 +162,20 @@ export class HomeComponent {
 
     // verificar se a string possui numeros
     if(/\d/.test(searchTerm)){
-
       if(searchTerm.length <= 11){
         this.listaDeProcessos = this.processosOriginais.filter(processo =>{
           return(
             processo.cpf.replaceAll('.', '').replaceAll('-', '').includes(searchTerm)
           );
         });
-      }
-
-      // else if( searchTerm.length == 14){}
-
-      else if(searchTerm.length > 11 && searchTerm.length <= 20){
+      } else if(searchTerm.length > 11 && searchTerm.length <= 20){
         this.listaDeProcessos = this.processosOriginais.filter(processo =>{
           return(
             processo.numeroDoProcesso.replaceAll('.', '').replaceAll('-', '').includes(searchTerm)
           );
         });
       }
-    }
-    else{
+    } else {
       this.listaDeProcessos = this.processosOriginais.filter(processo =>{
         return(
           processo.nome.toLowerCase().includes(searchTerm)
@@ -223,6 +184,40 @@ export class HomeComponent {
     }
   }
 
+  
+  getProcessos(orgao: string, sistemaProcessual: string, nomeParte: string): void {
+    this.subscription = this.processoService.getProcessos(orgao, sistemaProcessual, nomeParte)
+      .subscribe({
+        next: (data: ApiResponse[]) => {
+          this.processos = data;
+          console.log('Processos:', this.processos);
+        },
+        error: (error) => {
+          console.error('Erro ao buscar processos:', error);
+        },
+        complete: () => {
+          console.log('Requisição completa');
+        }
+      });
+  }
+
+  ngOnInit(): void {
+    // Chame getProcessos no ngOnInit se quiser buscar processos ao carregar o componente
+    // this.getProcessos('orgaoExemplo', 'sistemaExemplo', 'nomeParteExemplo');
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 
 
+  onSearch(): void {
+    const searchTerm = this.searchValue.trim();
+    if (searchTerm) {
+      // Suponha que você está buscando por nomeParte com o termo de busca
+      this.getProcessos('TRF5', 'PJE', searchTerm);
+    }
+  }
 }
