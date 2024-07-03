@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../enviroment';
-import { ApiResponse } from '../interfaces/api-response';
+import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-processual';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class ProcessoService {
     nomeParte?: string,
     numero?: string,
     numeroDocumento?: string
-  ): Observable<ApiResponse[]> {
+  ): Observable<ResultadoConsultaProcessual[]> {
     const baseParams = new HttpParams()
       .set('orgao', orgao)
       .set('sistemaProcessual', sistemaProcessual)
@@ -42,6 +42,6 @@ export class ProcessoService {
       'Authorization': `Bearer ${this.token}`,    
     });
 
-    return this.http.get<ApiResponse[]>(`${this.baseUrl}/processos`, { headers, params});
+    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params });
   }
 }

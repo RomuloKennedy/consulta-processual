@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProcessoService } from '../services/processo.service';
-import { ApiResponse } from '../interfaces/api-response';
+import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-processual';
 import { Subscription } from 'rxjs';
 
 interface Processo {
@@ -42,7 +42,7 @@ interface Processo {
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  processos: ApiResponse[] = [];
+  processos: ResultadoConsultaProcessual[] = [];
   private subscription: Subscription | null = null;
 
   headerTitle1 = 'Busca processual Unificada';
@@ -188,7 +188,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   getProcessos(orgao: string, sistemaProcessual: string, nomeParte: string): void {
     this.subscription = this.processoService.getProcessos(orgao, sistemaProcessual, nomeParte)
       .subscribe({
-        next: (data: ApiResponse[]) => {
+        next: (data: ResultadoConsultaProcessual[]) => {
           this.processos = data;
           console.log('Processos:', this.processos);
         },
