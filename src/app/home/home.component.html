@@ -46,22 +46,30 @@
         </div>
     </div>
   
-    <div *ngIf="listaDeProcessos.length > 0">
+    <div *ngIf="processos.length > 0">
       <ul style="list-style: none;">
-        <li *ngFor="let processo of listaDeProcessos">
+        <li *ngFor="let processo of processos">
           <div class="processo-container">
             <div class="processo">
-              <p>Processo n° : {{ processo.numeroDoProcesso }}</p>
-              <p id="nome-pessoa-processo">{{ processo.nome }}<p>
-              <div class="processo-ter-linha">
-                <p>CPF: {{ processo.cpf }}</p>
-                <p>Classe Judicial: {{ processo.classeJudicial }}</p>
+              <p>Processo n° : {{ processo.numero}}</p>
+              
+        
+              <div class="processo-titulo">
+                <p>{{processo.partes[0].nome}}</p>   
+                <p id="titulo-separator">|</p>
+                <p>{{processo.partes[1].nome}}</p>                    
               </div>
-              <div class="processo-qua-linha">
-                <p>Seção: {{ processo.secao }}</p>
-                <p>Grau: {{ processo.grau }}</p>
+
+                <div class="processo-ter-linha">
+                  <p>CPF: {{ processo.partes[0].numeroDocumento}}</p>
+                  <p>Classe Judicial: {{ processo.classeJudicial }}</p>
+                </div>                 
+
+                <div class="processo-qua-linha">
+                <p>Seção: RN</p>
+                <p>Grau: 2</p>
                 <p>Instância: {{ processo.instancia }}</p>
-                <p>Última Movimentação: {{ processo.ultimaMovimentacao }}</p>
+                <p>Última Movimentação: {{ processo.movimentacoes[0].data}}</p>
               </div>
             </div>
             <button routerLink="/mais-detalhes">Mais Detalhes</button>

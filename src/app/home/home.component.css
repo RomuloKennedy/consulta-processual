@@ -165,8 +165,23 @@ header nav ul li a:hover {
     margin: 3px 0;
 }
 
-#nome-pessoa-processo {
+.processo-titulo{
+    display: flex;
+    align-items: baseline;
+}
+
+.processo-titulo p{
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+#titulo-separator{
     font-size: 25px;
+}
+
+.titulo-separator{
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .processo-ter-linha {
