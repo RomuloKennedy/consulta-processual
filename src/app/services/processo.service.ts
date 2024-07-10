@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment';
 import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-processual';
@@ -9,7 +9,7 @@ import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-pr
 })
 
 export class ProcessoService {
-  private baseUrl: string = '/api/cp/api/v1';
+  private baseUrl = '/api/cp/api/v1';
   private token: string = environment.token;
 
   constructor(private http: HttpClient) { }
@@ -39,7 +39,7 @@ export class ProcessoService {
     );
 
     const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.token}`,    
+      'Authorization': `Bearer ${this.token}`,
     });
 
     return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params });
