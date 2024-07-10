@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
 
 import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-processual';
 import { Processo } from '../interfaces/processo';
-
+import { Parte } from '../interfaces/parte';
 
 @Component({
   selector: 'app-home',
@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   processos: Processo[] = [];
 
+  partesOrdenada: Parte[] = [];
 
   private subscription: Subscription | null = null;
 
@@ -57,13 +58,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   filteredOptions: string[] = [];
   MAX_HISTORY_SIZE = 5; // Defina o tamanho máximo do histórico
 
-
   constructor(private processoService: ProcessoService) { }
 
   normalizeString(str: string): string {
     return str.replace(/[.-]/g, '');
   }
-  
 
   updateSuggestion(){
     this.updateSearchHistory(this.searchValue);
@@ -82,46 +81,21 @@ export class HomeComponent implements OnInit, OnDestroy {
     localStorage.setItem('searchHistory', JSON.stringify(this.filteredOptions));
   }
 
-  // onSearchApi() {
-  //   const searchTerm = this.normalizeString(this.searchValue.toLowerCase().trim());
-    
-  //   if (!searchTerm) {
-  //     this.listaDeProcessos = [];
-  //     return;
-  //   }
-
-  //   // verificar se a string possui numeros
-  //   if(/\d/.test(searchTerm)){
-  //     if(searchTerm.length <= 11){
-  //       this.listaDeProcessos = this.processosOriginais.filter(processo =>{
-  //         return(
-  //           processo.cpf.replaceAll('.', '').replaceAll('-', '').includes(searchTerm)
-  //         );
-  //       });
-  //     } else if(searchTerm.length > 11 && searchTerm.length <= 20){
-  //       this.listaDeProcessos = this.processosOriginais.filter(processo =>{
-  //         return(
-  //           processo.numeroDoProcesso.replaceAll('.', '').replaceAll('-', '').includes(searchTerm)
-  //         );
-  //       });
-  //     }
-  //   } else {
-  //     this.listaDeProcessos = this.processosOriginais.filter(processo =>{
-  //       return(
-  //         processo.nome.toLowerCase().includes(searchTerm)
-  //       );
-  //     });
-  //   }
-  // }
-
-  
   getProcessos(orgao: string, sistemaProcessual: string, nomeParte: string): void {
     this.subscription = this.processoService.getProcessos(orgao, sistemaProcessual, nomeParte)
       .subscribe({
         next: (data: ResultadoConsultaProcessual[]) => {
           this.response = data;
-          this.processos = this.response[0].processos;
-          console.log( this.response);
+          this.processos = this.response[0].processos.map(processo => {
+            const partesOrdenadas = this.sortPartes(processo.partes);
+            return {
+              ...processo,
+              partes: partesOrdenadas,
+              primeiraParteAtiva: partesOrdenadas.find(parte => parte.tipoPolo === 'A'),
+              primeiraPartePassiva: partesOrdenadas.find(parte => parte.tipoPolo === 'P')
+            };
+          });
+          console.log(this.processos);
         },
         error: (error) => {
           console.error('Erro ao buscar processos:', error);
@@ -143,7 +117,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-
   onSearch(): void {
     const searchTerm = this.searchValue.trim();
     if (searchTerm) {
@@ -151,4 +124,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.getProcessos('TRF5', 'PJE', searchTerm);
     }
   }
+
+  sortPartes(partes: Parte[]): Parte[] {
+    const poloA = partes.filter(parte => parte.tipoPolo === 'A').sort((a, b) => a.nome.localeCompare(b.nome));
+    const poloP = partes.filter(parte => parte.tipoPolo === 'P').sort((a, b) => a.nome.localeCompare(b.nome));
+    return [...poloA, ...poloP];
+  }
+
 }

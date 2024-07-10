@@ -35,4 +35,7 @@ export interface Processo {
   dataUltimaMovimentacao: string;
   identificador: string;
   ordenacao: number;
+
+  primeiraParteAtiva?: Parte;
+  primeiraPartePassiva?: Parte;
 }

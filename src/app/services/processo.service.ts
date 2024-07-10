@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../../enviroment';
+import { environment } from '../../../environment';
 import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-processual';
 
 @Injectable({
