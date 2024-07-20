@@ -68,8 +68,8 @@
                           <p>Última Movimentação: {{ processo.movimentacoes[0].data }}</p>
                       </div>
                   </div>
-                  <button routerLink="/mais-detalhes">Mais Detalhes</button>
-              </div>
+                  <button (click)="navigateToDetalhes(processo)">Mais Detalhes</button>
+            </div>
           </li>
       </ul>
   </div>

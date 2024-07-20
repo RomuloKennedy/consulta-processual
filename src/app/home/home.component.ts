@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-processual';
 import { Processo } from '../interfaces/processo';
 import { Parte } from '../interfaces/parte';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -58,7 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   filteredOptions: string[] = [];
   MAX_HISTORY_SIZE = 5; // Defina o tamanho máximo do histórico
 
-  constructor(private processoService: ProcessoService) { }
+  constructor(private processoService: ProcessoService, private router: Router) { }
 
   normalizeString(str: string): string {
     return str.replace(/[.-]/g, '');
@@ -129,6 +130,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     const poloA = partes.filter(parte => parte.tipoPolo === 'A').sort((a, b) => a.nome.localeCompare(b.nome));
     const poloP = partes.filter(parte => parte.tipoPolo === 'P').sort((a, b) => a.nome.localeCompare(b.nome));
     return [...poloA, ...poloP];
+  }
+
+  navigateToDetalhes(processo: any) {
+    this.router.navigate(['/mais-detalhes'], { state: { processo } });
   }
 
 }

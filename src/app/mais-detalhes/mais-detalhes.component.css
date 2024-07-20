@@ -1,0 +1,160 @@
+header {
+    margin-top: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+header nav {
+    margin-right: 30px;
+    margin-top: 3px;
+}
+
+header nav ul li {
+    display: inline;
+}
+
+header nav ul li::after {
+    content: "|";
+    font-size: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    color: black;
+}
+
+header nav ul li:last-child::after {
+    content: "";
+}
+
+header nav ul li a {
+    font-size: 16px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+header nav ul li a:hover {
+    text-decoration: underline;
+}
+
+.header-left {
+    margin-left: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.header-left img {
+    width: 70px;
+    height: 40px;
+}
+
+.header-title {
+    margin-top: 13px;
+    margin-left: 10px;
+}
+
+.header-title h3 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.header-title p {
+    margin-top: 0;
+}
+
+.header-divider {
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-right: 40px;
+    height: 0.5px;
+    background-color: black;
+}
+
+
+
+h2{
+    font-size: 25px;
+    font-weight: bold;
+}
+
+p{
+    font-size: 16px;
+}
+
+.dados-do-processo{
+    margin-top: 50px;
+    margin-left: 60px;
+    margin-right: 60px;
+
+    border: 1px solid gray; /* 2px de largura, borda sólida, cor preta */
+    border-radius: 10px;
+    padding: 15px; /* Espaço interno para separar o conteúdo da borda */
+}
+
+
+.dados-primeira-linha{
+    display: flex;
+    align-items: center;
+}
+
+.dados-primeira-linha div{
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.dados-segunda-linha{
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.dados-segunda-linha div{
+    margin-left: 15px;
+    margin-right: 140px;
+}
+
+
+
+
+
+
+.polo-ativo{
+    margin-top: 50px;
+    margin-left: 60px;
+    margin-right: 60px;
+
+    border: 1px solid gray; /* 2px de largura, borda sólida, cor preta */
+    border-radius: 10px;
+    padding: 15px; /* Espaço interno para separar o conteúdo da borda */
+}
+
+.resultados {
+    text-align: right;
+    margin-top: 40px;
+    margin-right: 10px;
+    margin-bottom: 30px;
+}
+
+table {
+    width: 90%;
+    border-collapse: collapse; /* Junta as bordas das células */
+}
+  
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+  
+th {
+    background-color: lightgray;
+    justify-content: space-evenly;
+}
+
+
+.polo-passivo{
+    margin-top: 50px;
+    margin-left: 60px;
+    margin-right: 60px;
+
+    border: 1px solid gray; /* 2px de largura, borda sólida, cor preta */
+    border-radius: 10px;
+    padding: 15px; /* Espaço interno para separar o conteúdo da borda */
+}
