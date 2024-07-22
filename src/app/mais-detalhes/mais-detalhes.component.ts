@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DateFormatPipe } from '../date-format.pipe';
 
 @Component({
   selector: 'app-mais-detalhes',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DateFormatPipe],
   templateUrl: './mais-detalhes.component.html',
   styleUrl: './mais-detalhes.component.css'
 })

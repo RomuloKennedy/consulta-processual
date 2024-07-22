@@ -29,7 +29,7 @@
             
             <div>
                 <b>Número do Processo</b>
-                <p>{{processo.numero}}</p>
+                <p>{{processo?.numero}}</p>
             </div>
 
             <div>
@@ -102,6 +102,29 @@
     </div>
     
 
+
+    <div class="documentos">
+
+    </div>
+
+
+    <div class="movimentacao">
+        <h2>Movimentação do Processo</h2>
+
+        <table>
+            <tr>
+                <th>Movimentação</th>
+                <th>Documento</th>
+            </tr>
+
+            <tr *ngFor="let movimentacao of processo.movimentacoes">
+                <td>{{movimentacao.data | dateFormat}} - {{movimentacao.descricao}}</td>
+            </tr>
+
+
+        </table>
+
+    </div>
 
 
 </main>

@@ -15,6 +15,7 @@ import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-pr
 import { Processo } from '../interfaces/processo';
 import { Parte } from '../interfaces/parte';
 import { Router } from '@angular/router';
+import { DateFormatPipe } from '../date-format.pipe';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { Router } from '@angular/router';
     MatIconModule, 
     MatCardModule, 
     MatTooltipModule,
+    DateFormatPipe
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

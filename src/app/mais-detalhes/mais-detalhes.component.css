@@ -158,3 +158,14 @@ th {
     border-radius: 10px;
     padding: 15px; /* Espaço interno para separar o conteúdo da borda */
 }
+
+
+.movimentacao{
+    margin-top: 50px;
+    margin-left: 60px;
+    margin-right: 60px;
+
+    border: 1px solid gray; /* 2px de largura, borda sólida, cor preta */
+    border-radius: 10px;
+    padding: 15px; /* Espaço interno para separar o conteúdo da borda */
+}
