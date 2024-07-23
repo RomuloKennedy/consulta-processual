@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private subscription: Subscription | null = null;
 
   headerTitle1 = 'Busca processual Unificada';
-  headerTitle2 = 'Tribunal regional federal da quinta região';
+  headerTitle2 = 'Tribunal Regional Federal da 5ª região';
   title = 'Busque por nome, número do processo, CPF ou CNPJ';
   searchPlaceholder = 'Digite um nome, cpf, cnpj ou número do processo';
   tooltipMessage = `
