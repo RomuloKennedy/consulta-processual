@@ -21,6 +21,9 @@
         <button routerLink="/pesquisa-avancada">Pesquisa Avançada</button>
     </div>
 </div>
+
+
+
 <div *ngIf="processos.length > 0">
     <ul style="list-style: none;">
         <li *ngFor="let processo of processos">
@@ -35,14 +38,14 @@
 
                     <div class="processo-ter-linha">
                         <p>CPF: {{ processo.primeiraParteAtiva?.numeroDocumento }}</p>
-                        <p>Classe Judicial: {{ processo.classeJudicial }}</p>
+                        <p>Classe Judicial: {{ processo.classeJudicial.descricao }}</p>
                     </div>
 
                     <div class="processo-qua-linha">
                         <p>Seção: RN</p>
                         <p>Grau: 2</p>
                         <p>Instância: {{ processo.instancia }}</p>
-                        <p>Última Movimentação: {{ processo.movimentacoes[0].data}}</p>
+                        <p>Última Movimentação: {{ transformToArray(processo.movimentacoes[0].data)| dateFormat}}</p>
                     </div>
                 </div>
                 <button (click)="navigateToDetalhes(processo)">Mais Detalhes</button>

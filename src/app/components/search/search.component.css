@@ -1,21 +1,21 @@
 
 
 .icon {
-    width: 50px;
-    height: 50px; 
+    width: 35px;
+    height: 35px; 
     background-color: #FFC107; /* Green background color */
     color: #000000; /* White text color */
     font-size: 24px; /* Adjust size as needed */
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 25%; /* Makes the container a circle */
+    border-radius: 50%; /* Makes the container a circle */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
 }
 
 .search-bar {
     margin-top: 5%;
-    margin-left: 25%;
+    margin-left: 22%;
 }
 
 .search-bar h1 {
@@ -85,7 +85,8 @@
 
 .processo-container {
     display: flex;
-    margin-left: 377px;
+    justify-content: flex-start;
+    margin-left: 18.5%;
 }
 
 .processo {

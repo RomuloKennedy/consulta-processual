@@ -65,8 +65,8 @@ export class SearchComponent implements OnInit, OnDestroy{
     }
   }
   ngOnInit(): void {
-    // Chame getProcessos no ngOnInit se quiser buscar processos ao carregar o componente
-    // this.getProcessos('orgaoExemplo', 'sistemaExemplo', 'nomeParteExemplo');
+    this.loadSearchHistory();
+
   }
   ngOnDestroy(): void {
     if (this.subscription) {
@@ -123,4 +123,27 @@ export class SearchComponent implements OnInit, OnDestroy{
 
     localStorage.setItem('searchHistory', JSON.stringify(this.filteredOptions));
   }
+
+  private loadSearchHistory(): void {
+    const history = localStorage.getItem('searchHistory');
+    if (history) {
+      this.filteredOptions = JSON.parse(history);
+    }
+  }
+
+  transformToArray(data: any): number[] {
+    if (Array.isArray(data)) {
+      return data;
+    }
+    if (typeof data === 'string') {
+      try {
+        return JSON.parse(data);
+      } catch (e) {
+        console.error('Data format is invalid', data);
+      }
+    }
+    return [];
+  }
+
+
 }
