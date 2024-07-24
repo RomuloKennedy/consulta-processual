@@ -7,17 +7,16 @@ input{
     border-radius: 5px;
     border-color: #A9A9A9;    
     height: 3.4vh;
-    width: 30vw;
-}
-.input-wrapper{    
-    width: 50%;
+    width: 30vw;    
 }
 .cpf{
     width: 16vw;
 }
 .oab{
     width: 9vw;        
+
 }
 .oab2{
     width: 4vw;
 }
+
