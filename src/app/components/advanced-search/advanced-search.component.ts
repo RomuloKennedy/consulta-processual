@@ -50,11 +50,12 @@ export class AdvancedSearchComponent {
   ];
 
   optionsOrigem = [
-    { value: 'trf1', display: 'TRF 1° região' },
-    { value: 'trf2', display: 'TRF 2° região' },
-    { value: 'trf3', display: 'TRF 3° região' },
-    { value: 'trf4', display: 'TRF 4° região' },
-    { value: 'trf5', display: 'TRF 5° região' }
+    { value: 'JFRN', display: 'JFRN' },
+    { value: 'JFPB', display: 'JFPB' },
+    { value: 'JFCE', display: 'JFCE' },
+    { value: 'JFSE', display: 'JFSE' },
+    { value: 'JFAL', display: 'JFAL' },
+    { value: 'JFPE', display: 'JFPE' }
 ];
 
   clearForm(): void {
