@@ -160,10 +160,34 @@ th {
 }
 
 
+.parte-nome {
+    cursor: pointer;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.partes-detalhes {
+    padding-left: 20px;
+    margin-top: 10px;
+}
+
+.polo-ativo, .polo-passivo {
+    margin-top: 20px;
+}
+
+.polo-ativo h2, .polo-passivo h2 {
+    margin-bottom: 10px;
+}
+
+
 .movimentacao{
     margin-top: 50px;
     margin-left: 60px;
     margin-right: 60px;
+
 
     border: 1px solid gray; /* 2px de largura, borda sólida, cor preta */
     border-radius: 10px;

@@ -4,6 +4,6 @@ export interface Parte {
   tipoPessoa: string;
   tipoPolo: string;
   oab: string;
-  numeroDocumento: string;
-  documentoPrincipal: boolean;
+  numeroDocumento?: string;
+  documentoPrincipal?: boolean;
 }
