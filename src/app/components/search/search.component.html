@@ -26,10 +26,11 @@
 
 <div *ngIf="processos.length > 0">
     <ul style="list-style: none;">
+        <span>Resultado da Pesquisa: {{processos.length}} encontrados</span>
         <li *ngFor="let processo of processos">
             <div class="processo-container">
                 <div class="processo">
-                    <p>Processo n° : {{ processo.numero }}</p>
+                    <a (click)="navigateToDetalhes(processo)">Processo n° : {{ processo.numero }}</a>
                     <div class="processo-titulo">
                         <p>{{ processo.primeiraParteAtiva?.nome }}</p>
                         <p id="titulo-separator">|</p>
