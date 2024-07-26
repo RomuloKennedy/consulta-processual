@@ -15,7 +15,7 @@
 
         <div>
             <b>Classe Judicial</b>
-            <p>{{processo.classeJudicial}}</p>
+            <p>{{processo.classeJudicial.descricao}}</p>
         </div>
 
         <div>
@@ -44,37 +44,53 @@
 
 <div class="polo-ativo">
     <h2>Polo Ativo</h2>
-    <table>
-        <tr>
-            <th>Participante</th>
-            <th>Situação</th>
-        </tr>
-        <tr *ngFor="let parte of processo.partes">
-            <ng-container *ngIf="parte.tipoPolo === 'A' ">
-                <td>{{ parte.nome }}</td>
-                <td>Ativo</td>
-            </ng-container>
-        </tr>
-    </table>
-    <p class="resultados">2 resultados encontrados</p>
+    <div *ngFor="let nome of getGroupedPartesKeys()">
+        <div *ngIf="groupedPartes[nome][0].tipoPolo === 'A'">
+            <div class="parte-nome" (click)="toggleGroup(nome)">
+                <b>{{ nome }}</b> ({{ groupedPartes[nome].length }})
+            </div>
+            <div *ngIf="isGroupVisible(nome)" class="partes-detalhes">
+
+                <table>
+                    <tr>
+                        <th>Participante</th>
+                        <th>Situação</th>
+                    </tr>
+                    <tr *ngFor="let parte of groupedPartes[nome]">
+                        <td>{{ parte.nome }} ({{parte.numeroDocumento}})</td>
+                        <td>Ativo</td>                
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 
 <div class="polo-passivo">
     <h2>Polo Passivo</h2>
-    <table>
-        <tr>
-            <th>Participante</th>
-            <th>Situação</th>
-        </tr>
-        <tr *ngFor="let parte of processo.partes">
-            <ng-container *ngIf="parte.tipoPolo === 'P' ">
-                <td>{{ parte.nome }}</td>
-                <td>Ativo</td>
-            </ng-container>
-        </tr>
-    </table>
-    <p class="resultados">2 resultados encontrados</p>
+    <div *ngFor="let nome of getGroupedPartesKeys()">
+        <div *ngIf="groupedPartes[nome][0].tipoPolo === 'P'">
+            <div class="parte-nome" (click)="toggleGroup(nome)">
+                <b>{{ nome }}</b> ({{ groupedPartes[nome].length }})
+            </div>
+            <div *ngIf="isGroupVisible(nome)" class="partes-detalhes">
+
+                <table>
+                    <tr>
+                        <th>Participante</th>
+                        <th>Situação</th>
+                    </tr>        
+                    <tr *ngFor="let parte of groupedPartes[nome]">
+                        <td>{{ parte.nome }} ({{parte.numeroDocumento}})</td>
+                        <td>Ativo</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -96,7 +112,6 @@
         <tr *ngFor="let movimentacao of processo.movimentacoes">
             <td>{{movimentacao.data | dateFormat}} - {{movimentacao.descricao}}</td>
         </tr>
-
 
     </table>
 
