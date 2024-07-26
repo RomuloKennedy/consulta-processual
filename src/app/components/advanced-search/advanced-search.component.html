@@ -5,24 +5,24 @@
         <span>Pesquisa Avançada</span>
     </div>
     <form >
-        <app-advanced-input-select label="Origem" labeltSelectName="origem" selectName="origem" selectId="1" [options]="optionsOrigem" formControlName="origem">
+        <app-advanced-input-select label="Origem" labeltSelectName="origem" selectName="origem" selectId="1" [options]="optionsOrigem">
         </app-advanced-input-select>
-        <app-advanced-input inputName="cpf" label="CPF/CNPJ" type="cpf" formControlName="cpf"></app-advanced-input>
-        <app-advanced-input inputName="numeroProcesso" label="Número do Processo" type="text" formControlName="numeroProcesso"></app-advanced-input>
-        <app-advanced-input inputName="nomeParte" label="Nome da parte" type="text" formControlName="nomeParte"></app-advanced-input>
-        <app-advanced-input inputName="nomeAdvogado" label="Nome do advogado" type="text" formControlName="nomeAdvogado"></app-advanced-input>
-        <app-advanced-input inputName="classeJudicial" label="Classe judicial" type="text" formControlName="classeJudicial"></app-advanced-input>
+        <app-advanced-input inputName="cpf" label="CPF/CNPJ" type="cpf" maskValue="000.000.000-000"></app-advanced-input>
+        <app-advanced-input inputName="numeroProcesso" label="Número do Processo" type="text" maskValue="0000000-00.0000.0.00.0000"></app-advanced-input>
+        <app-advanced-input inputName="nomeParte" label="Nome da parte" type="text"></app-advanced-input>
+        <app-advanced-input inputName="nomeAdvogado" label="Nome do advogado" type="text"></app-advanced-input>
+        <app-advanced-input inputName="classeJudicial" label="Classe judicial" type="text"></app-advanced-input>
         <div class="oab">
-          <app-advanced-input inputName="oab" label="OAB (000000 A UF)" type="text" formControlName="oab"></app-advanced-input>
+          <app-advanced-input inputName="oabNumber" label="OAB (000000 A UF)" type="text"></app-advanced-input>
           <div class="divider-oab"></div>
-          <app-advanced-input inputName="oab2" type="text" formControlName="oab2"></app-advanced-input>
+          <app-advanced-input inputName="oabWord" type="text"></app-advanced-input>
           <div class="divider-oab"></div>
-          <app-advanced-input-select labeltSelectName="oab" selectName="oab" selectId="2" [options]="optionsUf" formControlName="uf">
+          <app-advanced-input-select labeltSelectName="oabUf" selectName="oab" selectId="2" [options]="optionsUf">
           </app-advanced-input-select>
         </div>
         <div class="btn-form">
           <button type="button" class="btn-clear" (click)="clearForm()">Limpar</button>
-          <button class="btn-search" type="submit">Consultar</button>
+          <button class="btn-search" type="button" (click)="searchAdvanced()">Consultar</button>
         </div>
       </form>
 </main>

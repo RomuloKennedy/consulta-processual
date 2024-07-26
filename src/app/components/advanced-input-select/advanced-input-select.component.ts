@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
-
+import { SearchAdvancedParamsService } from '../../services/search-advanced-params.service';
 @Component({
   selector: 'app-advanced-input-select',
   standalone: true,
@@ -11,6 +11,8 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, ViewChild} from
   styleUrl: './advanced-input-select.component.css'
 })
 export class AdvancedInputSelectComponent implements OnDestroy, AfterViewInit{
+  constructor(private params: SearchAdvancedParamsService) { }
+
   @Input() label = '';
   @Input() labelSelectName = '';
   @Input() selectName = '';
@@ -30,7 +32,18 @@ export class AdvancedInputSelectComponent implements OnDestroy, AfterViewInit{
       window.removeEventListener('clearForm', this.clearValue);
     }
   }
-
+  onInput(event: Event){    
+    const value = (event.target as HTMLSelectElement).value;
+    this.onChange(value);
+  }
+  onChange(value: string){
+    if(this.labelSelectName == "origem"){
+      this.params.origem = value;
+    }else{
+      this.params.numeroOabUF = value;
+    }
+    console.log(value);
+  };
   clearValue(): void {
     this.selectElement.nativeElement.value = this.options[0].value;
   }

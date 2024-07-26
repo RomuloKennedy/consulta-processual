@@ -44,4 +44,32 @@ export class ProcessoService {
 
     return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params });
   }
+
+  getProcessosAdvanced(
+    origem?: string,
+    sistemaProcessual?: string,
+    nomeParte?: string,
+    numero?: string,
+    numeroDocumento?: string,
+    numeroOab?: string,
+    classeJudicial?: string
+  ): Observable<ResultadoConsultaProcessual[]>{
+    const baseParams = new HttpParams()
+      .set('orgao', origem ?? "")
+      .set('sistemaProcessual', sistemaProcessual ?? "PJE")
+      .set('numero', numero ?? "")
+      .set('numeroDocumento', numeroDocumento ?? "")
+      .set('nomeParte', nomeParte ?? "")
+      .set('numeroOab',numeroOab ?? "")
+      .set('classeJudicial',classeJudicial ?? "")
+      .set('start', '0')
+      .set('length', '100')
+      .set('buscaNomeExato', 'true');
+      
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`,
+    });
+    console.log(`${this.baseUrl}/processos${baseParams}`);
+    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params: baseParams });
+  }
 }

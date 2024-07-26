@@ -3,6 +3,9 @@ import { AdvancedInputComponent } from '../advanced-input/advanced-input.compone
 import { MatSelectModule } from '@angular/material/select';
 import { HeaderComponent } from "../header/header.component";
 import { AdvancedInputSelectComponent } from "../advanced-input-select/advanced-input-select.component";
+import { ProcessoService } from '../../services/processo.service';
+import { Router } from '@angular/router';
+import { SearchAdvancedParamsService } from '../../services/search-advanced-params.service';
 
 @Component({
   selector: 'app-advanced-search',
@@ -17,39 +20,42 @@ import { AdvancedInputSelectComponent } from "../advanced-input-select/advanced-
   styleUrl: './advanced-search.component.css'
 })
 export class AdvancedSearchComponent {  
-  
+
+  constructor(private processoService: ProcessoService, private router: Router, private params: SearchAdvancedParamsService) { }
+
   optionsUf = [
-    { value: 'uf', display: 'UF' },
-    { value: 'ac', display: 'Acre' },
-    { value: 'al', display: 'Alagoas' },
-    { value: 'ap', display: 'Amapá' },
-    { value: 'am', display: 'Amazonas' },
-    { value: 'ba', display: 'Bahia' },
-    { value: 'ce', display: 'Ceará' },
-    { value: 'df', display: 'Distrito Federal' },
-    { value: 'es', display: 'Espírito Santo' },
-    { value: 'go', display: 'Goiás' },
-    { value: 'ma', display: 'Maranhão' },
-    { value: 'mt', display: 'Mato Grosso' },
-    { value: 'ms', display: 'Mato Grosso do Sul' },
-    { value: 'mg', display: 'Minas Gerais' },
-    { value: 'pa', display: 'Pará' },
-    { value: 'pb', display: 'Paraíba' },
-    { value: 'pr', display: 'Paraná' },
-    { value: 'pe', display: 'Pernambuco' },
-    { value: 'pi', display: 'Piauí' },
-    { value: 'rj', display: 'Rio de Janeiro' },
-    { value: 'rn', display: 'Rio Grande do Norte' },
-    { value: 'rs', display: 'Rio Grande do Sul' },
-    { value: 'ro', display: 'Rondônia' },
-    { value: 'rr', display: 'Roraima' },
-    { value: 'sc', display: 'Santa Catarina' },
-    { value: 'sp', display: 'São Paulo' },
-    { value: 'se', display: 'Sergipe' },
-    { value: 'to', display: 'Tocantins' }
-  ];
+    { value: 'UF', display: 'UF' },
+    { value: 'AC', display: 'Acre' },
+    { value: 'AL', display: 'Alagoas' },
+    { value: 'AP', display: 'Amapá' },
+    { value: 'AM', display: 'Amazonas' },
+    { value: 'BA', display: 'Bahia' },
+    { value: 'CE', display: 'Ceará' },
+    { value: 'DF', display: 'Distrito Federal' },
+    { value: 'ES', display: 'Espírito Santo' },
+    { value: 'GO', display: 'Goiás' },
+    { value: 'MA', display: 'Maranhão' },
+    { value: 'MT', display: 'Mato Grosso' },
+    { value: 'MS', display: 'Mato Grosso do Sul' },
+    { value: 'MG', display: 'Minas Gerais' },
+    { value: 'PA', display: 'Pará' },
+    { value: 'PB', display: 'Paraíba' },
+    { value: 'PR', display: 'Paraná' },
+    { value: 'PE', display: 'Pernambuco' },
+    { value: 'PI', display: 'Piauí' },
+    { value: 'RJ', display: 'Rio de Janeiro' },
+    { value: 'RN', display: 'Rio Grande do Norte' },
+    { value: 'RS', display: 'Rio Grande do Sul' },
+    { value: 'RO', display: 'Rondônia' },
+    { value: 'RR', display: 'Roraima' },
+    { value: 'SC', display: 'Santa Catarina' },
+    { value: 'SP', display: 'São Paulo' },
+    { value: 'SE', display: 'Sergipe' },
+    { value: 'TO', display: 'Tocantins' }
+];
 
   optionsOrigem = [
+    { value: 'TRF5', display: 'TRF5' },
     { value: 'JFRN', display: 'JFRN' },
     { value: 'JFPB', display: 'JFPB' },
     { value: 'JFCE', display: 'JFCE' },
@@ -63,4 +69,8 @@ export class AdvancedSearchComponent {
   const event = new CustomEvent('clearForm');
   window.dispatchEvent(event);
 }
+  searchAdvanced(): void{
+    const numerOab = (this.params.numeroOabUF + this.params.numeroOabNumber + this.params.numeroOabWord);
+    this.processoService.getProcessosAdvanced(this.params.origem,this.params.sistemaProcessual,this.params.nomeParte,this.params.numero,this.params.numeroDocumento,numerOab, this.params.classeJudicial);
+  }
 }
