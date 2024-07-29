@@ -94,20 +94,21 @@ export class SearchComponent implements OnInit, OnDestroy{
         },
         error: (error) => {
           console.error('Erro ao buscar processos:', error);
+          this.router.navigate(['/pagina-error']);
         },
         complete: () => {
           console.log('Requisição completa');
         }
       });
   }
-  
+
 
   sortPartes(partes: Parte[]): Parte[] {
     const poloA = partes.filter(parte => parte.tipoPolo === 'A').sort((a, b) => a.nome.localeCompare(b.nome));
     const poloP = partes.filter(parte => parte.tipoPolo === 'P').sort((a, b) => a.nome.localeCompare(b.nome));
     return [...poloA, ...poloP];
   }
-  
+
   navigateToDetalhes(processo: any) {
     this.router.navigate(['/mais-detalhes'], { state: { processo } });
   }
