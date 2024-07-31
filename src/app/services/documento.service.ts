@@ -18,7 +18,7 @@ export class DocumentoService {
     orgao: string, 
     sistemaProcessual: string, 
     numeroProcesso: string
-  ): Observable<ResultadoConsultaDocumento[]> {
+  ): Observable<ResultadoConsultaDocumento> {
     const params = new HttpParams()
       .set('orgao', orgao)
       .set('sistemaProcessual', sistemaProcessual)
@@ -29,6 +29,6 @@ export class DocumentoService {
         'Authorization': `Bearer ${this.token}`,
       });
 
-    return this.http.get<ResultadoConsultaDocumento[]>(`${this.baseUrl}/documentos`, {headers, params});
+    return this.http.get<ResultadoConsultaDocumento>(`${this.baseUrl}/documentos`, {headers, params});
   }
 }

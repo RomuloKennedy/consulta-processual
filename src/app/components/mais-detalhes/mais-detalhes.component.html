@@ -96,6 +96,22 @@
 
 
 <div class="documentos">
+    <h2>Documentos juntados ao processo</h2>
+
+    <table>
+        <tr>
+            <th>Documentos</th>
+            <th>Certidão</th>
+        </tr>
+        <tr *ngFor="let documento of documentos">
+            <td>{{documento.dataAssinatura | dateFormat}} - {{documento.tipo.descricao}}</td>
+            <td>
+                <a [href]="documento.url" target="_blank">
+                    <fa-icon [icon]="faFileAlt"></fa-icon>
+                </a>
+            </td>
+        </tr>
+    </table>
 
 </div>
 

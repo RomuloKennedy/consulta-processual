@@ -7,11 +7,15 @@ import { Parte } from '../../interfaces/parte';
 import { ResultadoConsultaDocumento } from '../../interfaces/resultado-consulta-documento';
 import { DocumentoService } from '../../services/documento.service';
 import { Subscription } from 'rxjs';
+import { Documento } from '../../interfaces/documento';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faFileAlt } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-mais-detalhes',
   standalone: true,
-  imports: [CommonModule, DateFormatPipe, HeaderComponent],
+  imports: [CommonModule, DateFormatPipe, HeaderComponent, FontAwesomeModule],
   templateUrl: './mais-detalhes.component.html',
   styleUrl: './mais-detalhes.component.css'
 })
@@ -21,10 +25,14 @@ export class MaisDetalhesComponent implements OnInit {
   visibleGroups: { [key: string]: boolean } = {};
  
   headerTitle2 = 'Tribunal regional federal da quinta região';
-
-  private response: ResultadoConsultaDocumento[] = [];
-
+  
+  private response!: ResultadoConsultaDocumento;
+  
+  public documentos: Documento[] = [];
+  
   private subscription: Subscription | null = null;
+
+  faFileAlt = faFileAlt // icone de documento
 
   constructor(private router: Router, private documentoService: DocumentoService) {
     const navigation = this.router.getCurrentNavigation();
@@ -70,8 +78,9 @@ export class MaisDetalhesComponent implements OnInit {
 
     this.subscription = this.documentoService.getDocumentos(orgao, sistemaProcessual, numeroProceso)
     .subscribe({
-      next: (data: ResultadoConsultaDocumento[]) =>{
+      next: (data: ResultadoConsultaDocumento) =>{
         this.response = data;
+        this.documentos = data.documentos;
         console.log(this.response);
       },
       error: (error) => {

@@ -6,20 +6,26 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class DateFormatPipe implements PipeTransform {
 
-  transform(value: number[]): string {
-    if (!value || value.length < 5) return '';
+  transform(value: string | number[]): string {
+    if (!value) return '';
 
-    const [year, month, day, hour, minute, second = 0] = value;
+    let date: Date;
+    if (typeof value === 'string') {
+      date = new Date(value);
+    } else if (Array.isArray(value) && value.length >= 5) {
+      const [year, month, day, hour, minute, second = 0] = value;
+      date = new Date(year, month - 1, day, hour, minute, second);
+    } else {
+      return '';
+    }
 
-    const formattedDate = new Date(year, month - 1, day, hour, minute, second);
+    const dayString = date.getDate() < 10 ? `0${date.getDate()}` : `${date.getDate()}`;
+    const monthString = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : `${date.getMonth() + 1}`;
+    const hourString = date.getHours() < 10 ? `0${date.getHours()}` : `${date.getHours()}`;
+    const minuteString = date.getMinutes() < 10 ? `0${date.getMinutes()}` : `${date.getMinutes()}`;
+    const secondString = date.getSeconds() < 10 ? `0${date.getSeconds()}` : `${date.getSeconds()}`;
 
-    const dayString = day < 10 ? `0${day}` : `${day}`;
-    const monthString = month < 10 ? `0${month}` : `${month}`;
-    const hourString = hour < 10 ? `0${hour}` : `${hour}`;
-    const minuteString = minute < 10 ? `0${minute}` : `${minute}`;
-    const secondString = second < 10 ? `0${second}` : `${second}`;
-
-    return `${dayString}/${monthString}/${year} ${hourString}:${minuteString}:${secondString}`;
+    return `${dayString}/${monthString}/${date.getFullYear()} ${hourString}:${minuteString}:${secondString}`;
   }
 
 }
