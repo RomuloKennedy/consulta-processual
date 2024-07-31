@@ -6,8 +6,8 @@ export interface ResultadoConsultaDocumento {
   orgao: string;
   sistemaProcessual: SistemaProcessual;
   resultado: Resultado;
-  processos: Documento[];
-  totalProcessos: number;
+  documentos: Documento[];
+  totalDocumentos: number;
 }
 
 
