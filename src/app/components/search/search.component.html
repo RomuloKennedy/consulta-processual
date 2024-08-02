@@ -34,10 +34,10 @@
     </div>
 </div>
 
-<div *ngIf="processos.length > 0">
+<div class="resultado-container" *ngIf="processos.length > 0">
     <ul style="list-style: none;">
         <span>Resultado da Pesquisa: {{processos.length}} encontrados</span>
-        <li *ngFor="let processo of processos">
+        <li *ngFor="let processo of visibleProcessos">
             <div class="processo-container">
                 <div class="processo">
                     <a (click)="navigateToDetalhes(processo)">Processo n° : {{ processo.numero }}</a>
@@ -63,4 +63,5 @@
             </div>
         </li>
     </ul>
+    <button id="ver-mais" *ngIf="visibleProcessos.length < processos.length" (click)="carregarMaisProcessos()">Ver Mais</button>
 </div>

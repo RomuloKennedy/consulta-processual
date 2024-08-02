@@ -136,6 +136,11 @@ li {
     margin-top: 10px;
 }
 
+
+.resultado-container{
+    padding-bottom: 10px;
+}
+
 .processo-container {
     display: flex;
     justify-content: space-around;
@@ -211,4 +216,21 @@ a {
 .processo-container button:hover {
     color: black;
     background-color: white;
+}
+
+
+#ver-mais{
+    margin: 50px auto;
+    display: block;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #334B6A;
+    color: white;
+    cursor: pointer;
+}
+
+#ver-mais:hover{
+    background-color: #2a3e57;
 }

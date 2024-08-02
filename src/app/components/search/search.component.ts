@@ -61,8 +61,12 @@ export class SearchComponent implements OnInit, OnDestroy{
 
   progress = 0;
   showProgress = false;
-
   nenhumProcessoEncontrado = false;
+
+
+  visibleProcessos: Processo[] = [];
+  private processosPorPagina: number = 5;
+  private paginaAtual: number = 1;
 
 
   constructor(private processoService: ProcessoService, private router: Router) { }
@@ -76,17 +80,20 @@ export class SearchComponent implements OnInit, OnDestroy{
     // simular progresso, pois a demora é a resposta a requisição da API
     const interval = setInterval(() => {
       if (this.progress < 70) {
-        this.progress += 10;
+        this.progress += 1;
       } else {
         clearInterval(interval);
       }
-    }, 1000);
+    }, 250);
 
 
     if (searchTerm) {
       // Suponha que você está buscando por nomeParte com o termo de busca
       this.getProcessos('TRF5', 'PJE', searchTerm);
     }
+
+    this.paginaAtual = 1; // Reinicia a página atual na nova pesquisa
+
   }
 
 
@@ -123,6 +130,7 @@ export class SearchComponent implements OnInit, OnDestroy{
             };
           });
           console.log(this.processos);
+          this.updateProcessosVisiveis();
         },
         error: (error) => {
           console.error('Erro ao buscar processos:', error);
@@ -188,5 +196,20 @@ export class SearchComponent implements OnInit, OnDestroy{
   fecharDiv(div: HTMLElement): void {
     div.style.display = 'none';
   }
+
+
+
+  carregarMaisProcessos(): void {
+    const inicio = this.visibleProcessos.length;
+    const fim = inicio + this.processosPorPagina;
+    this.visibleProcessos = [...this.visibleProcessos, ...this.processos.slice(inicio, fim)];
+    this.paginaAtual++;
+  }
+
+
+  private updateProcessosVisiveis(): void {
+    this.visibleProcessos = this.processos.slice(0, this.processosPorPagina * this.paginaAtual);
+  }
+
 
 }
