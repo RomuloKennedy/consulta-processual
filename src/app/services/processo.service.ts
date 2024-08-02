@@ -14,15 +14,13 @@ export class ProcessoService {
 
   constructor(private http: HttpClient) { }
 
-  getProcessos(
-    orgao: string,
+  getProcessos(    
     sistemaProcessual: string,
     nomeParte?: string,
     numero?: string,
     numeroDocumento?: string
   ): Observable<ResultadoConsultaProcessual[]> {
     const baseParams = new HttpParams()
-      .set('orgao', orgao)
       .set('sistemaProcessual', sistemaProcessual)
       .set('start', '0')
       .set('length', '500')

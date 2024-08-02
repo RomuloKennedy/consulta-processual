@@ -85,7 +85,7 @@ export class SearchComponent implements OnInit, OnDestroy{
 
     if (searchTerm) {
       // Suponha que você está buscando por nomeParte com o termo de busca
-      this.getProcessos('TRF5', 'PJE', searchTerm);
+      this.getProcessos('PJE', searchTerm);
     }
   }
 
@@ -108,8 +108,8 @@ export class SearchComponent implements OnInit, OnDestroy{
   updateSuggestion() {
     this.updateSearchHistory(this.searchValue);
   }
-  getProcessos(orgao: string, sistemaProcessual: string, nomeParte: string): void {
-    this.subscription = this.processoService.getProcessos(orgao, sistemaProcessual, nomeParte)
+  getProcessos(sistemaProcessual: string, nomeParte: string): void {
+    this.subscription = this.processoService.getProcessos(sistemaProcessual, nomeParte)
       .subscribe({
         next: (data: ResultadoConsultaProcessual[]) => {
           this.response = data;
