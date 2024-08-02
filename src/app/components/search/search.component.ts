@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 import { ProcessoService } from '../../services/processo.service';
 import { Router } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import IMask from 'imask';
 
 import { interval } from 'rxjs';
 import { takeWhile, tap } from 'rxjs/operators';
@@ -88,7 +89,51 @@ export class SearchComponent implements OnInit, OnDestroy{
       this.getProcessos('PJE', searchTerm);
     }
   }
+  onChange(event: any) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
 
+    // Remove todos os caracteres não numéricos
+    const numericValue = value.replace(/\D/g, '');
+
+    if (/^[0-9]/.test(value)) {
+      switch (true) {
+        case (numericValue.length <= 11):
+          value = this.applyMask(numericValue, '000.000.000-00');
+          break;
+        case (numericValue.length <= 14):
+          value = this.applyMask(numericValue, '00.000.000/0000-00');
+          break;
+        default:
+          value = this.applyMask(numericValue, '0000000-00.0000.0.00.0000');
+      }
+    }
+
+    input.value = value;
+    this.searchValue = value;
+  }
+
+  applyMask(value: string, mask: string): string {
+    let maskedValue = '';
+    let valueIndex = 0;
+
+    for (const maskChar of mask) {
+      if (maskChar === '0') {
+        if (value[valueIndex]) {
+          maskedValue += value[valueIndex];
+          valueIndex++;
+        } else {
+          break;
+        }
+      } else {
+        if (valueIndex < value.length) {
+          maskedValue += maskChar;
+        }
+      }
+    }
+
+    return maskedValue;
+  }
 
   clearSearch(): void{
     this.searchValue = '';
