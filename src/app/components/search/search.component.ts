@@ -16,7 +16,6 @@ import { Subscription } from 'rxjs';
 import { ProcessoService } from '../../services/processo.service';
 import { Router } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import IMask from 'imask';
 
 import { interval } from 'rxjs';
 import { takeWhile, tap } from 'rxjs/operators';
