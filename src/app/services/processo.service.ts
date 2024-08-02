@@ -25,7 +25,7 @@ export class ProcessoService {
       .set('orgao', orgao)
       .set('sistemaProcessual', sistemaProcessual)
       .set('start', '0')
-      .set('length', '100')
+      .set('length', '500')
       .set('buscaNomeExato', 'true');
 
     const optionalParams = [

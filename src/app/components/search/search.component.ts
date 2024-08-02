@@ -15,7 +15,10 @@ import { Parte } from '../../interfaces/parte';
 import { Subscription } from 'rxjs';
 import { ProcessoService } from '../../services/processo.service';
 import { Router } from '@angular/router';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
+import { interval } from 'rxjs';
+import { takeWhile, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-search',
@@ -31,9 +34,10 @@ import { Router } from '@angular/router';
     MatCardModule,
     MatTooltipModule,
     DateFormatPipe,
+    MatProgressBarModule,
   ],
   templateUrl: './search.component.html',
-  styleUrl: './search.component.css'
+  styleUrl: './search.component.css',
 })
 export class SearchComponent implements OnInit, OnDestroy{
 
@@ -51,19 +55,47 @@ export class SearchComponent implements OnInit, OnDestroy{
   private response: ResultadoConsultaProcessual[] = [];
   MAX_HISTORY_SIZE = 5; // Defina o tamanho máximo do histórico
   processos: Processo[] = [];
-
   partesOrdenada: Parte[] = [];
-
   private subscription: Subscription | null = null;
+
+
+  progress = 0;
+  showProgress = false;
+
+  nenhumProcessoEncontrado = false;
+
+
   constructor(private processoService: ProcessoService, private router: Router) { }
 
   onSearch(): void {
     const searchTerm = this.searchValue.trim();
+    this.showProgress = true;
+    this.progress = 0;
+    this.processos = []; // caso eu pesquise, e a lista de processos possuir valor
+
+    // simular progresso, pois a demora é a resposta a requisição da API
+    const interval = setInterval(() => {
+      if (this.progress < 70) {
+        this.progress += 10;
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+
     if (searchTerm) {
       // Suponha que você está buscando por nomeParte com o termo de busca
       this.getProcessos('TRF5', 'PJE', searchTerm);
     }
   }
+
+
+  clearSearch(): void{
+    this.searchValue = '';
+    this.processos = [];
+    this.showProgress = false;
+  }
+
   ngOnInit(): void {
     this.loadSearchHistory();
 
@@ -98,6 +130,13 @@ export class SearchComponent implements OnInit, OnDestroy{
         },
         complete: () => {
           console.log('Requisição completa');
+          this.progress = 100;
+
+          if(this.processos.length == 0){
+            this.showProgress = false;
+            this.nenhumProcessoEncontrado = true;
+          }
+
         }
       });
   }
@@ -146,5 +185,8 @@ export class SearchComponent implements OnInit, OnDestroy{
     return [];
   }
 
+  fecharDiv(div: HTMLElement): void {
+    div.style.display = 'none';
+  }
 
 }
