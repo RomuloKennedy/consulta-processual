@@ -221,11 +221,6 @@ export class SearchComponent implements OnInit, OnDestroy{
     div.style.display = 'none';
   }
 
-
-
-
-
-
   private updateProcessosVisiveis(): void {
     this.resultValues.visibleProcessos = this.resultValues.processos.slice(0, this.resultValues.processosPorPagina * this.resultValues.paginaAtual);
   }

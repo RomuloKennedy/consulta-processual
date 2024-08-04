@@ -4,24 +4,41 @@ import { MatSelectModule } from '@angular/material/select';
 import { HeaderComponent } from "../header/header.component";
 import { AdvancedInputSelectComponent } from "../advanced-input-select/advanced-input-select.component";
 import { ProcessoService } from '../../services/processo.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SearchAdvancedParamsService } from '../../services/search-advanced-params.service';
+import { Subscription } from 'rxjs';
+import { ResultadoConsultaProcessual } from '../../interfaces/resultado-consulta-processual';
+import { ResultAdvancedValuesService } from '../../services/result-advanced-values.service';
+import { Parte } from '../../interfaces/parte';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-advanced-search',
   standalone: true,
   imports: [
+    FormsModule,
+    CommonModule,
     AdvancedInputComponent,
     MatSelectModule,
     HeaderComponent,
-    AdvancedInputSelectComponent
-],
+    AdvancedInputSelectComponent,
+    MatProgressBarModule,
+    RouterLink
+  ],
   templateUrl: './advanced-search.component.html',
   styleUrl: './advanced-search.component.css'
 })
-export class AdvancedSearchComponent {  
+export class AdvancedSearchComponent {
 
-  constructor(private processoService: ProcessoService, private router: Router, private params: SearchAdvancedParamsService) { }
+  constructor(private processoService: ProcessoService, private router: Router, private params: SearchAdvancedParamsService, private resultValues: ResultAdvancedValuesService) { }
+
+  private subscription: Subscription | null = null;
+  private response: ResultadoConsultaProcessual[] = [];
+  progress = 0;
+  showProgress = false;
+  nenhumProcessoEncontrado = false;
 
   optionsUf = [
     { value: 'UF', display: 'UF' },
@@ -52,7 +69,7 @@ export class AdvancedSearchComponent {
     { value: 'SP', display: 'São Paulo' },
     { value: 'SE', display: 'Sergipe' },
     { value: 'TO', display: 'Tocantins' }
-];
+  ];
 
   optionsOrigem = [
     { value: 'TRF5', display: 'TRF5' },
@@ -62,15 +79,76 @@ export class AdvancedSearchComponent {
     { value: 'JFSE', display: 'JFSE' },
     { value: 'JFAL', display: 'JFAL' },
     { value: 'JFPE', display: 'JFPE' }
-];
-
+  ];
+  OnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
   clearForm(): void {
-  // Emitir o evento de limpeza
-  const event = new CustomEvent('clearForm');
-  window.dispatchEvent(event);
-}
-  searchAdvanced(): void{
+    // Emitir o evento de limpeza
+    const event = new CustomEvent('clearForm');
+    window.dispatchEvent(event);
+  }
+  searchAdvanced(): void {
+
+    this.showProgress = true;
+    console.log(this.showProgress)
+    const interval = setInterval(() => {
+      if (this.progress < 70) {
+        this.progress += 1;
+      } else {
+        clearInterval(interval);
+      }
+    }, 250);
+    console.log("origem: "+this.params.origem);
     const numerOab = (this.params.numeroOabUF + this.params.numeroOabNumber + this.params.numeroOabWord);
-    this.processoService.getProcessosAdvanced(this.params.origem,this.params.sistemaProcessual,this.params.nomeParte,this.params.numero,this.params.numeroDocumento,numerOab, this.params.classeJudicial);
+    this.subscription = this.processoService.getProcessosAdvanced(this.params.origem, this.params.nomeParte, this.params.numero, this.params.numeroDocumento, numerOab, this.params.classeJudicial)
+      .subscribe({
+        next: (data) => {
+          console.log("data aqui: " + data)
+          this.response = data;
+          this.resultValues.processos = this.response[0].processos.map(processo => {
+            const partesOrdenadas = this.sortPartes(processo.partes);
+            return {
+              ...processo,
+              partes: partesOrdenadas,
+              primeiraParteAtiva: partesOrdenadas.find(parte => parte.tipoPolo === 'A'),
+              primeiraPartePassiva: partesOrdenadas.find(parte => parte.tipoPolo === 'P')
+            };
+          });
+          this.updateProcessosVisiveis();
+        },
+        error: (error) => {
+          console.error('Erro ao buscar processos:', error);
+          this.router.navigate(['/pagina-error']);
+        },
+        complete: () => {
+          console.log('Requisição completa');
+
+          this.progress = 100;
+
+
+          if (this.resultValues.processos.length == 0) {
+            this.showProgress = false;
+            this.nenhumProcessoEncontrado = true;
+          } else {
+            setTimeout(() => {
+              this.showProgress = false
+            }, 1000);
+          }
+
+        }
+      });
+  }
+
+  sortPartes(partes: Parte[]): Parte[] {
+    const poloA = partes.filter(parte => parte.tipoPolo === 'A').sort((a, b) => a.nome.localeCompare(b.nome));
+    const poloP = partes.filter(parte => parte.tipoPolo === 'P').sort((a, b) => a.nome.localeCompare(b.nome));
+    return [...poloA, ...poloP];
+  }
+
+  private updateProcessosVisiveis(): void {
+    this.resultValues.visibleProcessos = this.resultValues.processos.slice(0, this.resultValues.processosPorPagina * this.resultValues.paginaAtual);
   }
 }

@@ -39,6 +39,7 @@ export class AdvancedInputSelectComponent implements OnDestroy, AfterViewInit{
   onChange(value: string){
     if(this.labelSelectName == "origem"){
       this.params.origem = value;
+      console.log("trocouo");
     }else{
       this.params.numeroOabUF = value;
     }

@@ -9,7 +9,7 @@ import { ResultadoConsultaProcessual } from '../interfaces/resultado-consulta-pr
 })
 
 export class ProcessoService {
-  private baseUrl = '/api/cp/api/v1';
+  private baseUrl = environment.apiUrl;
   private token: string = environment.token;
 
   constructor(private http: HttpClient) { }
@@ -30,12 +30,11 @@ export class ProcessoService {
       'Authorization': `Bearer ${this.token}`,
     });
 
-    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params:baseParams });
+    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos?`, { headers, params:baseParams });
   }
 
   getProcessosAdvanced(
     origem?: string,
-    sistemaProcessual?: string,
     nomeParte?: string,
     numero?: string,
     numeroDocumento?: string,
@@ -43,21 +42,21 @@ export class ProcessoService {
     classeJudicial?: string
   ): Observable<ResultadoConsultaProcessual[]>{
     const baseParams = new HttpParams()
+      .set('sistemaProcessual', "PJE")
       .set('orgao', origem ?? "")
-      .set('sistemaProcessual', sistemaProcessual ?? "PJE")
       .set('numero', numero ?? "")
       .set('numeroDocumento', numeroDocumento ?? "")
-      .set('nomeParte', nomeParte ?? "")
       .set('numeroOab',numeroOab ?? "")
       .set('classeJudicial',classeJudicial ?? "")
       .set('start', '0')
-      .set('length', '100')
-      .set('buscaNomeExato', 'true');
+      .set('length', '500')
+      .set('buscaNomeExato', 'true')
+      .set('nomeParte', nomeParte ?? "");
       
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
     });
-    console.log(`${this.baseUrl}/processos${baseParams}`);
-    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params: baseParams });
+    console.log(origem);
+    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos?`, { headers, params: baseParams });
   }
 }

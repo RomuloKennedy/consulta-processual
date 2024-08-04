@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class SearchAdvancedParamsService {
 
   public origem: string;
-  public sistemaProcessual: string;
   public nomeParte: string;
   public numero: string;
   public numeroDocumento: string;
@@ -17,7 +16,6 @@ export class SearchAdvancedParamsService {
 
   constructor() {
     this.origem = '';
-    this.sistemaProcessual = ''
     this.nomeParte = ''
     this.numero = ''
     this.numeroDocumento = ''

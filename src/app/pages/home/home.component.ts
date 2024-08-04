@@ -13,6 +13,7 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { SearchComponent } from '../../components/search/search.component';
 import { Component } from '@angular/core';
 import { ResultComponent } from "../../components/result/result.component";
+import { ResultValuesService } from '../../services/result-values.service';
 
 @Component({
   selector: 'app-home',
@@ -31,6 +32,9 @@ import { ResultComponent } from "../../components/result/result.component";
     HeaderComponent,
     SearchComponent,
     ResultComponent
+],
+providers:[
+  {provide: 'ResultValueService', useClass: ResultValuesService}
 ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']

@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ResultValuesService } from '../../services/result-values.service';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { DateFormatPipe } from '../../date-format.pipe';
@@ -12,9 +11,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ResultAdvancedValuesService } from '../../services/result-advanced-values.service';
 
 @Component({
-  selector: 'app-result',
+  selector: 'app-result-advanced',
   standalone: true,
   imports: [
     FormsModule,
@@ -31,12 +31,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     RouterModule,
     DateFormatPipe,
   ],
-  templateUrl: './result.component.html',
-  styleUrl: './result.component.css'
+  templateUrl: './result-advanced.component.html',
+  styleUrl: './result-advanced.component.css'
 })
-export class ResultComponent {
-
-  constructor(private router: Router, public resultValues: ResultValuesService){}
+export class ResultAdvancedComponent {
+  constructor(private router: Router, public resultValues: ResultAdvancedValuesService){}
 
   transformToArray(data: any): number[] {
     if (Array.isArray(data)) {
