@@ -12,6 +12,7 @@ import { DateFormatPipe } from '../../date-format.pipe';
 import { HeaderComponent } from '../../components/header/header.component';
 import { SearchComponent } from '../../components/search/search.component';
 import { Component } from '@angular/core';
+import { ResultComponent } from "../../components/result/result.component";
 
 @Component({
   selector: 'app-home',
@@ -28,8 +29,9 @@ import { Component } from '@angular/core';
     MatTooltipModule,
     DateFormatPipe,
     HeaderComponent,
-    SearchComponent
-  ],
+    SearchComponent,
+    ResultComponent
+],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

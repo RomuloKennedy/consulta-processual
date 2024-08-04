@@ -10,15 +10,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DateFormatPipe } from '../../date-format.pipe';
 import { ResultadoConsultaProcessual } from '../../interfaces/resultado-consulta-processual';
-import { Processo } from '../../interfaces/processo';
 import { Parte } from '../../interfaces/parte';
 import { Subscription } from 'rxjs';
 import { ProcessoService } from '../../services/processo.service';
 import { Router } from '@angular/router';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import { interval } from 'rxjs';
-import { takeWhile, tap } from 'rxjs/operators';
+import { ResultValuesService } from '../../services/result-values.service';
 
 @Component({
   selector: 'app-search',
@@ -34,8 +32,8 @@ import { takeWhile, tap } from 'rxjs/operators';
     MatCardModule,
     MatTooltipModule,
     DateFormatPipe,
-    MatProgressBarModule,
-  ],
+    MatProgressBarModule,    
+],
   templateUrl: './search.component.html',
   styleUrl: './search.component.css',
 })
@@ -53,30 +51,22 @@ export class SearchComponent implements OnInit, OnDestroy{
   searchValue = '';
   filteredOptions: string[] = [];
   private response: ResultadoConsultaProcessual[] = [];
-  MAX_HISTORY_SIZE = 5; // Defina o tamanho máximo do histórico
-  processos: Processo[] = [];
+  MAX_HISTORY_SIZE = 5; // Defina o tamanho máximo do histórico  
   partesOrdenada: Parte[] = [];
   private subscription: Subscription | null = null;
   searchParam = 'nomeParte';
-
 
   progress = 0;
   showProgress = false;
   nenhumProcessoEncontrado = false;
 
-
-  visibleProcessos: Processo[] = [];
-  private processosPorPagina: number = 5;
-  private paginaAtual: number = 1;
-
-
-  constructor(private processoService: ProcessoService, private router: Router) { }
+  constructor(private processoService: ProcessoService, private router: Router,private resultValues: ResultValuesService) { }
 
   onSearch(): void {
     const searchTerm = this.searchValue.trim();
     this.showProgress = true;
     this.progress = 0;
-    this.processos = []; // caso eu pesquise, e a lista de processos possuir valor
+    this.resultValues.processos = []; // caso eu pesquise, e a lista de processos possuir valor
 
     // simular progresso, pois a demora é a resposta a requisição da API
     const interval = setInterval(() => {
@@ -93,7 +83,7 @@ export class SearchComponent implements OnInit, OnDestroy{
       this.getProcessos('PJE', searchTerm, this.searchParam);
     }
 
-    this.paginaAtual = 1; // Reinicia a página atual na nova pesquisa
+    this.resultValues.paginaAtual = 1; // Reinicia a página atual na nova pesquisa
 
   }
   onChange(event: any) {
@@ -148,7 +138,7 @@ export class SearchComponent implements OnInit, OnDestroy{
 
   clearSearch(): void{
     this.searchValue = '';
-    this.processos = [];
+    this.resultValues.processos = [];
     this.showProgress = false;
   }
 
@@ -169,7 +159,7 @@ export class SearchComponent implements OnInit, OnDestroy{
       .subscribe({
         next: (data: ResultadoConsultaProcessual[]) => {
           this.response = data;
-          this.processos = this.response[0].processos.map(processo => {
+          this.resultValues.processos = this.response[0].processos.map(processo => {
             const partesOrdenadas = this.sortPartes(processo.partes);
             return {
               ...processo,
@@ -178,7 +168,6 @@ export class SearchComponent implements OnInit, OnDestroy{
               primeiraPartePassiva: partesOrdenadas.find(parte => parte.tipoPolo === 'P')
             };
           });
-          console.log(this.processos);
           this.updateProcessosVisiveis();
         },
         error: (error) => {
@@ -189,7 +178,7 @@ export class SearchComponent implements OnInit, OnDestroy{
           console.log('Requisição completa');
           this.progress = 100;
 
-          if(this.processos.length == 0){
+          if(this.resultValues.processos.length == 0){
             this.showProgress = false;
             this.nenhumProcessoEncontrado = true;
           }
@@ -205,9 +194,7 @@ export class SearchComponent implements OnInit, OnDestroy{
     return [...poloA, ...poloP];
   }
 
-  navigateToDetalhes(processo: any) {
-    this.router.navigate(['/mais-detalhes'], { state: { processo } });
-  }
+
   private updateSearchHistory(searchTerm: string) {
     if (searchTerm != '' && !(this.filteredOptions.includes(searchTerm))) {
       this.filteredOptions = [searchTerm, ...this.filteredOptions];
@@ -228,19 +215,7 @@ export class SearchComponent implements OnInit, OnDestroy{
     }
   }
 
-  transformToArray(data: any): number[] {
-    if (Array.isArray(data)) {
-      return data;
-    }
-    if (typeof data === 'string') {
-      try {
-        return JSON.parse(data);
-      } catch (e) {
-        console.error('Data format is invalid', data);
-      }
-    }
-    return [];
-  }
+
 
   fecharDiv(div: HTMLElement): void {
     div.style.display = 'none';
@@ -248,16 +223,11 @@ export class SearchComponent implements OnInit, OnDestroy{
 
 
 
-  carregarMaisProcessos(): void {
-    const inicio = this.visibleProcessos.length;
-    const fim = inicio + this.processosPorPagina;
-    this.visibleProcessos = [...this.visibleProcessos, ...this.processos.slice(inicio, fim)];
-    this.paginaAtual++;
-  }
+
 
 
   private updateProcessosVisiveis(): void {
-    this.visibleProcessos = this.processos.slice(0, this.processosPorPagina * this.paginaAtual);
+    this.resultValues.visibleProcessos = this.resultValues.processos.slice(0, this.resultValues.processosPorPagina * this.resultValues.paginaAtual);
   }
 
 
