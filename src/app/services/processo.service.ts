@@ -16,31 +16,21 @@ export class ProcessoService {
 
   getProcessos(    
     sistemaProcessual: string,
-    nomeParte?: string,
-    numero?: string,
-    numeroDocumento?: string
+    searchTerm: string,
+    searchParam: string
   ): Observable<ResultadoConsultaProcessual[]> {
     const baseParams = new HttpParams()
       .set('sistemaProcessual', sistemaProcessual)
       .set('start', '0')
       .set('length', '500')
+      .set(searchParam, searchTerm)
       .set('buscaNomeExato', 'true');
-
-    const optionalParams = [
-      { key: 'numero', value: numero },
-      { key: 'numeroDocumento', value: numeroDocumento },
-      { key: 'nomeParte', value: nomeParte }
-    ];
-
-    const params = optionalParams.reduce(
-      (acc, param) => param.value !== undefined ? acc.set(param.key, param.value) : acc, baseParams
-    );
 
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
     });
 
-    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params });
+    return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos`, { headers, params:baseParams });
   }
 
   getProcessosAdvanced(

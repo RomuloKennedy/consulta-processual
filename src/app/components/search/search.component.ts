@@ -57,6 +57,7 @@ export class SearchComponent implements OnInit, OnDestroy{
   processos: Processo[] = [];
   partesOrdenada: Parte[] = [];
   private subscription: Subscription | null = null;
+  searchParam = 'nomeParte';
 
 
   progress = 0;
@@ -89,7 +90,7 @@ export class SearchComponent implements OnInit, OnDestroy{
 
     if (searchTerm) {
       // Suponha que você está buscando por nomeParte com o termo de busca
-      this.getProcessos('PJE', searchTerm);
+      this.getProcessos('PJE', searchTerm, this.searchParam);
     }
 
     this.paginaAtual = 1; // Reinicia a página atual na nova pesquisa
@@ -105,16 +106,20 @@ export class SearchComponent implements OnInit, OnDestroy{
     if (/^[0-9]/.test(value)) {
       switch (true) {
         case (numericValue.length <= 11):
+          this.searchParam = "numeroDocumento"
           value = this.applyMask(numericValue, '000.000.000-00');
           break;
         case (numericValue.length <= 14):
+          this.searchParam = "numeroDocumento"
           value = this.applyMask(numericValue, '00.000.000/0000-00');
           break;
         default:
+          this.searchParam = "numero"
           value = this.applyMask(numericValue, '0000000-00.0000.0.00.0000');
       }
+    }else{
+      this.searchParam = "nomeParte"
     }
-
     input.value = value;
     this.searchValue = value;
   }
@@ -137,7 +142,7 @@ export class SearchComponent implements OnInit, OnDestroy{
         }
       }
     }
-
+    console.log("foi");
     return maskedValue;
   }
 
@@ -159,8 +164,8 @@ export class SearchComponent implements OnInit, OnDestroy{
   updateSuggestion() {
     this.updateSearchHistory(this.searchValue);
   }
-  getProcessos(sistemaProcessual: string, nomeParte: string): void {
-    this.subscription = this.processoService.getProcessos(sistemaProcessual, nomeParte)
+  getProcessos(sistemaProcessual: string, searchValue: string, searchTerm: string): void {
+    this.subscription = this.processoService.getProcessos(sistemaProcessual,searchValue, searchTerm)
       .subscribe({
         next: (data: ResultadoConsultaProcessual[]) => {
           this.response = data;
