@@ -182,7 +182,12 @@ export class SearchComponent implements OnInit, OnDestroy{
             this.showProgress = false;
             this.nenhumProcessoEncontrado = true;
           }
-
+          else{
+            this.nenhumProcessoEncontrado = false;
+            setTimeout(() => {
+              this.showProgress = false
+            }, 1000);
+          }
         }
       });
   }

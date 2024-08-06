@@ -94,7 +94,8 @@ export class AdvancedSearchComponent {
   searchAdvanced(): void {
     this.resultValues.processos =[];
     this.showProgress = true;
-    console.log(this.showProgress)
+    this.progress = 0;
+
     const interval = setInterval(() => {
       if (this.progress < 70) {
         this.progress += 1;
@@ -134,9 +135,9 @@ export class AdvancedSearchComponent {
             this.showProgress = false;
             this.nenhumProcessoEncontrado = true;
           } else {
+            this.nenhumProcessoEncontrado = false;
             setTimeout(() => {
               this.showProgress = false
-              this.progress = 0
             }, 1000);
           }
 
