@@ -3,12 +3,11 @@ import { HeaderComponent } from "../../components/header/header.component";
 import { AdvancedSearchComponent } from "../../components/advanced-search/advanced-search.component";
 import { ResultComponent } from "../../components/result/result.component";
 import { ResultAdvancedValuesService } from '../../services/result-advanced-values.service';
-import { ResultAdvancedComponent } from "../../components/result-advanced/result-advanced.component";
 
 @Component({
   selector: 'app-pesquisa-avancada',
   standalone: true,
-  imports: [HeaderComponent, AdvancedSearchComponent, ResultComponent, ResultAdvancedComponent],
+  imports: [HeaderComponent, AdvancedSearchComponent, ResultComponent,],
   providers: [
     { provide: 'ResultValueService', useClass: ResultAdvancedValuesService }
   ],
@@ -16,5 +15,5 @@ import { ResultAdvancedComponent } from "../../components/result-advanced/result
   styleUrl: './pesquisa-avancada.component.css'
 })
 export class PesquisaAvancadaComponent {
-
+  constructor(public resultValues: ResultAdvancedValuesService){}
 }

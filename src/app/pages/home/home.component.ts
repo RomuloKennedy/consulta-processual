@@ -41,7 +41,9 @@ providers:[
 })
 export class HomeComponent{
 
-
+  constructor(public resultValues: ResultValuesService){
+    
+  }
   headerTitle1 = 'Busca processual Unificada';
   title = 'Busque por nome, número do processo, CPF ou CNPJ';
   searchPlaceholder = 'Digite um nome, cpf, cnpj ou número do processo';

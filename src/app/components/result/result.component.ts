@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ResultValuesService } from '../../services/result-values.service';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { IResultValuesService } from '../../interfaces/IResultValuesService';
 
 @Component({
   selector: 'app-result',
@@ -36,7 +37,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 })
 export class ResultComponent {
 
-  constructor(private router: Router, public resultValues: ResultValuesService){}
+  constructor(private router: Router){}
+  @Input() resultValues!: IResultValuesService;
 
   transformToArray(data: any): number[] {
     if (Array.isArray(data)) {
