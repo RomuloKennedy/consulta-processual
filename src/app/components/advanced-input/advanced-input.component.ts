@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { SearchAdvancedParamsService } from '../../services/search-advanced-params.service';
 
-type inputTypes = "text" | "cpf"
+type inputTypes = "text" | "numeroDocumento"
 
 @Component({
   selector: 'app-advanced-input',
@@ -30,15 +30,19 @@ export class AdvancedInputComponent implements OnDestroy, AfterViewInit {
     this.onChange(value);
   }
   onChange(value: string) {
-    if (this.inputName === "cpf") {
+    if (this.inputName === "numeroDocumento") {
       if (value.length > 14) {
         this.maskValue = '00.000.000/0000-00';
       } else {
         this.maskValue = '000.000.000-000';
       }
     }    
+    if(this.inputName === "oabWord"){
+      value = value.toUpperCase();
+      this.maskValue = "A";
+    }
     switch (this.inputName) {
-      case 'cpf':
+      case 'numeroDocumento':
         this.params.numeroDocumento = value;
         break;
       case 'numeroProcesso': this.params.numero = value;

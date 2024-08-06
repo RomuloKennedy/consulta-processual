@@ -56,7 +56,6 @@ export class ProcessoService {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`,
     });
-    console.log(origem);
     return this.http.get<ResultadoConsultaProcessual[]>(`${this.baseUrl}/processos?`, { headers, params: baseParams });
   }
 }
