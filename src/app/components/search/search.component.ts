@@ -217,8 +217,8 @@ export class SearchComponent implements OnInit, OnDestroy{
 
 
 
-  fecharDiv(div: HTMLElement): void {
-    div.style.display = 'none';
+  fecharDiv(): void {
+    this.nenhumProcessoEncontrado = false;
   }
 
   private updateProcessosVisiveis(): void {

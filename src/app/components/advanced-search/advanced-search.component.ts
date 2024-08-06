@@ -88,10 +88,11 @@ export class AdvancedSearchComponent {
   clearForm(): void {
     // Emitir o evento de limpeza
     const event = new CustomEvent('clearForm');
+    this.resultValues.processos = [];
     window.dispatchEvent(event);
   }
   searchAdvanced(): void {
-
+    this.resultValues.processos =[];
     this.showProgress = true;
     console.log(this.showProgress)
     const interval = setInterval(() => {
@@ -135,6 +136,7 @@ export class AdvancedSearchComponent {
           } else {
             setTimeout(() => {
               this.showProgress = false
+              this.progress = 0
             }, 1000);
           }
 
@@ -146,6 +148,10 @@ export class AdvancedSearchComponent {
     const poloA = partes.filter(parte => parte.tipoPolo === 'A').sort((a, b) => a.nome.localeCompare(b.nome));
     const poloP = partes.filter(parte => parte.tipoPolo === 'P').sort((a, b) => a.nome.localeCompare(b.nome));
     return [...poloA, ...poloP];
+  }
+
+  fecharDiv(): void {
+    this.nenhumProcessoEncontrado = false;
   }
 
   private updateProcessosVisiveis(): void {

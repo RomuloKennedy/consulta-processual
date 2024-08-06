@@ -28,4 +28,10 @@
       <div class="progress-bar-container" *ngIf="showProgress === true">
         <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
     </div>
+    <div class="erro">
+      <div #erroNenhumProcessoEncontrado *ngIf="nenhumProcessoEncontrado === true">
+          <p>Nenhum processo encontrado</p>
+          <button (click)="fecharDiv()">Fechar x</button>
+      </div>
+  </div>
 </main>
