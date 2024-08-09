@@ -72,7 +72,7 @@ export class AdvancedSearchComponent {
   ];
 
   optionsOrigem = [
-    { value: 'TRF5', display: 'TRF5' },
+    { value: 'TRF5', display: 'TRF 5ª região' },
     { value: 'JFRN', display: 'JFRN' },
     { value: 'JFPB', display: 'JFPB' },
     { value: 'JFCE', display: 'JFCE' },

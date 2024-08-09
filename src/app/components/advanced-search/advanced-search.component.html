@@ -4,7 +4,7 @@
         <div class="divider-home"></div>
         <span>Pesquisa Avançada</span>
     </div>
-    <form >
+    <form>
         <app-advanced-input-select label="Origem" labelSelectName="origem" selectName="origem" selectId="1" [options]="optionsOrigem">
         </app-advanced-input-select>
         <app-advanced-input inputName="numeroDocumento" label="CPF/CNPJ" type="numeroDocumento" maskValue="000.000.000-000"></app-advanced-input>
@@ -15,7 +15,7 @@
         <div class="oab">
           <app-advanced-input inputName="oabNumber" label="OAB (000000 A UF)" type="text" maskValue="000000"></app-advanced-input>
           <div class="divider-oab"></div>
-          <app-advanced-input inputName="oabWord" type="text"></app-advanced-input>
+          <app-advanced-input inputName="oabWord" label="A" type="text"></app-advanced-input>
           <div class="divider-oab"></div>
           <app-advanced-input-select labelSelectName="oabUf" selectName="oab" selectId="2" [options]="optionsUf">
           </app-advanced-input-select>
